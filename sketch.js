@@ -1,29 +1,42 @@
 
 const btnVer = document.getElementById('btnVer');
 const cmbAno = document.getElementById('cmbAno');
-const edtViewCode = document.getElementById('edtViewCode');
-const divTeste = document.getElementById('divTeste');
+//const edtViewCode = document.getElementById('edtViewCode');
+const divTabela = document.getElementById('divTabela');
 const cmbRodada = document.getElementById('cmbRodada');
 let jogos = [];
 
 class Jogo{
-    constructor(J,M,V,D,L,P1,P2,ME,VE,ML,VL){
+    constructor(jogo,data,local){
+
         this.jogo =  new Object;
-        this.jogo.num = J.trim();
-        this.jogo.data = D.trim();
-        this.jogo.local = L.trim();
+        this.jogo.num = data.firstChild.nodeValue.split(' - ')[1].split(': ')[1].trim();
+        this.jogo.data = data.firstChild.nodeValue.split(' - ')[0].trim();
+        this.jogo.local = local.firstChild.nodeValue.trim();
+
+        const mandante = jogo.querySelector('.time .pull-right')
+        const visitante = jogo.querySelector('.time .pull-left')
+        const placar = jogo.querySelector('.label-2');
 
         this.mandante = new Object;
-        this.mandante.nome = M.trim();
-        this.mandante.uf = ME.trim();
-        this.mandante.logo = ML.trim();
-        this.mandante.placar = P1.trim();
+        this.mandante.nome = mandante.title.split(' - ')[0];
+        this.mandante.uf = mandante.title.split(' - ')[1];
+        this.mandante.logo = mandante.currentSrc.trim();
+        if(placar != null){
+            this.mandante.placar = placar.innerHTML.split(' x ')[0];        
+        }else{
+            this.mandante.placar = ' ';
+        }
 
         this.visitante = new Object;
-        this.visitante.nome = V.trim();
-        this.visitante.uf = VE.trim();
-        this.visitante.logo = VL.trim();
-        this.visitante.placar = P2.trim();
+        this.visitante.nome = visitante.title.split(' - ')[0];
+        this.visitante.uf = visitante.title.split(' - ')[1];
+        this.visitante.logo = visitante.currentSrc.trim();
+        if(placar != null){
+            this.visitante.placar = placar.innerHTML.split(' x ')[1];        
+        }else{
+            this.visitante.placar = ' ';
+        }
     }
 }
 
@@ -40,49 +53,62 @@ function getURL(url){
             const cbf = document.createElement('div');
             cbf.innerHTML =  text;
 
+//            divTeste.innerHTML = text;
+
             const rodada = cbf.querySelector(`[data-slide-index="${cmbRodada.value}"]`);
             const lista = rodada.getElementsByClassName("clearfix");
             const local = rodada.getElementsByClassName("partida-desc text-1 color-lightgray block uppercase text-center");
-            const tabela = document.createElement('table');
-
-            edtViewCode.innerHTML = "";
+        
+//            edtViewCode.innerHTML = "";
             jogos = [];
 
 
             for(let i=0; i< lista.length; i++){
-                
-                const jogo = lista[i];
-                const visitante = jogo.querySelector('.time .pull-left').title.split(' - ')[0];
-                const mandante = jogo.querySelector('.time .pull-right').title.split(' - ')[0];
-                const est_vis = jogo.querySelector('.time .pull-left').title.split(' - ')[1];
-                const est_mand = jogo.querySelector('.time .pull-right').title.split(' - ')[1];
-                const logo_vis = lista[i].querySelector('.time .pull-left').currentSrc;
-                const logo_mand = lista[i].querySelector('.time .pull-right').currentSrc;
-                const placar = jogo.querySelector('.label-2');
-                const estadio = local[(i * 2)+1].firstChild.nodeValue;
-                const data = local[(i * 2)].firstChild.nodeValue.split(' - ')[0];
-                const numjogo = local[(i * 2)].firstChild.nodeValue.split(' - ')[1].split(': ')[1];
-
-                let p1 = ' ';
-                let p2 = ' ';
-
-                if(placar != null){
-                    p1 = placar.innerHTML.split(' x ')[0];
-                    p2 = placar.innerHTML.split(' x ')[1];   
-                }
-
-                const J = new Jogo(numjogo,mandante,visitante,data,estadio,p1,p2, est_mand,est_vis,logo_mand,logo_vis);
+                const J = new Jogo(lista[i], local[(i * 2)], local[(i * 2)+1]);
                 jogos.push(J);
 
-                edtViewCode.innerHTML = edtViewCode.innerHTML + '\n' + mandante + ' ' + p1 + ' x ' + p2 + ' ' +  visitante ;
-
-                console.log(jogo)
-              
+//                edtViewCode.innerHTML = edtViewCode.innerHTML + '\n' + mandante + ' ' + p1 + ' x ' + p2 + ' ' +  visitante ;
 
             }
             console.log(jogos);
 
+            divTabela.innerHTML = `
+            <table id="tabRodada">
+                <tr>
+                    <th>Jogo</th>
+                    <th>Data</th>
+                    <th>Local</th>
+                    <th>Mandante</th>
+                    <th colspan="3">Placar</th>
+                    <th>Visitante</th>
+                </tr>             
+                `;
+
+            const tabela = document.getElementById('tabRodada');
+
+            for(let i=0; i<jogos.length; i++){
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${jogos[i].jogo.num}</td>
+                    <td>${jogos[i].jogo.data}</td>
+                    <td>${jogos[i].jogo.local}</td>
+                    <td> <img src="${jogos[i].mandante.logo}"> </td>
+                    <td>${jogos[i].mandante.placar}</td>
+                    <td> x </td>
+                    <td>${jogos[i].visitante.placar}</td>
+                    <td> <img src="${jogos[i].visitante.logo}"> </td>
+
+                `;
+
+                tabela.appendChild(row);
+
+
+            }
+
+
         })
+
 
     })
 
