@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="login.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="wrapper">
+    	<div class="title-text">
+        <div class="title login">
+  				Login
+  			</div>
+  			<div class="title signup">
+  				Cadastro
+  			</div>
+  	  </div>
+ 	    <div class="form-container">
+      	<div class="slide-controls">
+        		<input type="radio" name="slide" id="login" checked>
+	          <input type="radio" name="slide" id="signup">
+	          <label for="login" class="slide login">Login</label>
+	          <label for="signup" class="slide signup">Cadastro</label>
+	          <div class="slider-tab"></div>
+        </div>
+  			<div class="form-inner">
+      		<form action="#" class="login">
+          	<div class="field">
+               <input type="text" id="edtUser" placeholder="Email" required>
+          	</div>
+  		      <div class="field">
+               <input type="password" id="edtPass" placeholder="Senha" required>
+          	</div>
+  					<div class="pass-link">
+  						<a href="#">Equeceu a senha?</a>
+  					</div>
+  					<div class="field btn" id="btnLogin">
+  		        <div class="btn-layer"></div>
+  						<input type="submit" value="Login" >
+          	</div>
+ 
+  	      </form>
+  	      <form action="#" class="signup">
+        		<div class="field">
+          			<input type="text" id="edtNewMail" placeholder="Email" required>
+        		</div>
+  		      <div class="field">
+          			<input type="password" id="edtNewPass" placeholder="Senha" required>
+        		</div>
+  		      <div class="field">
+          			<input type="password" id="edtNewRepass" placeholder="Confirme a Senha" required>
+        		</div>
+  		      <div class="field btn" id="btnSignup">
+					<div class="btn-layer"></div>
+  			        <input type="submit" value="Salvar" id="btnNovo">
+        		</div>
+  	      </form>
+  			</div>
+  		</div>
+	  </div>
+    <script type="text/javascript" src="login.js"></script>
+  </body>
+
+</html>
