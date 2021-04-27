@@ -28,7 +28,7 @@ signinBtn.onclick = (()=>{
 signinForm.addEventListener("submit",function(event){
 	event.preventDefault();
 
-	const resp = sendFetch('files/login.php');
+	const resp = awaitsendFetch('files/login.php');
 
     resp.then(result =>{
         let arr = JSON.parse(result);
@@ -80,7 +80,31 @@ function sendFetch(url){
 
 btnNovo.addEventListener('click',(event)=>{
     event.preventDefault();
-    crip(newemail.value);    
+
+    const crip_mail = crip(newemail.value);
+
+    crip_mail.then((email)=>{
+        console.log(email);
+
+        const crip_pass = crip(newpass.value);
+        crip_pass.then((senha)=>{
+            console.log(senha);
+
+            const data = new URLSearchParams();
+            data.append("do", "1");
+            data.append("email", email);
+            data.append("pass", senha);
+        
+            const myRequest = new Request("commit.php",{
+                method : "POST",
+                body : data
+            })
+    
+            fetch(myRequest);
+    
+        });
+
+    })
 
 })
 
@@ -96,18 +120,20 @@ function crip(strval){
 		body : data
 	})
 
+    const resp = new Promise((resolve,reject)=>{
+        fetch(myRequest)
+        .then( function (response) {
 
-    fetch(myRequest)
-
-    .then(function (response) {
-        console.log(response)
-        if(response.status == 200){
-            response.text().then((text)=>{
-                console.log(text);
-            });    
-        }else{
-            alert('internet offline');
-        }
+            if(response.status == 200){
+                resolve (response.text());
     
+            }else{
+                reject('internet offline');
+            }
+
+        })        
     });
+
+    return resp;
+
 }

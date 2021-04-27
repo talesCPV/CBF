@@ -54,7 +54,6 @@ function scrapCBF(ano, rodada){
         }
     }
 
-
     fetch(url)
     .then(function (response) {
 
@@ -112,9 +111,7 @@ function scrapCBF(ano, rodada){
 
             }
 
-
         })
-
 
     })
 

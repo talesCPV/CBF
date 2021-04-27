@@ -2,10 +2,16 @@
 <html lang="pt-br" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="login.css">
+	<link rel="stylesheet" href="login.css">
+	<title>Bolão do Buteko</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
+	
+	<?php
+		include 'database.php';
+	?>
+
     <div class="wrapper">
     	<div class="title-text">
         <div class="title login">
@@ -41,11 +47,12 @@
  
   	      </form>
   	      <form action="#" class="signup">
+				<input type="hidden" name="do" value="1">
         		<div class="field">
-          			<input type="text" id="edtNewMail" placeholder="Email" required>
+          			<input type="text" name="edtNewMail" id="edtNewMail" placeholder="Email" required>
         		</div>
   		      <div class="field">
-          			<input type="password" id="edtNewPass" placeholder="Senha" required>
+          			<input type="password" name="edtNewPass" id="edtNewPass" placeholder="Senha" required>
         		</div>
   		      <div class="field">
           			<input type="password" id="edtNewRepass" placeholder="Confirme a Senha" required>

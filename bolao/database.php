@@ -2,10 +2,10 @@
 
 	include 'crip.php';
 
-	$usuario  = decrip('?:?AX?`6`tfsWZ?LBb??D@=,[?QSVMTH/G7"`?\AO?U7?]mn');
-	$senha    = decrip(`xsxz8xB!9e0m7:x, Cxx"y0);x13V-H(2'y%cx=z/x5 x?qY`);
-	$servidor = decrip('k9km+k3n557r*-kxn:kkplw,.k"%[yltlsul`k/m k(vk065');
-	$banco    = decrip(' 7:y 9yC2`tbs8;y-!pyy##=/=y24VpTv/(#"\y?%0yf7`@mn');
+	$usuario  = decrip('rvru4r=lDXJ]36r(vFrsxtr-7r-/q)/!e mZ`r8u+r1mr9QR');
+	$senha    = decrip('P*PSjPrUktbUilP^TsPQVRr*mPceF_/ZdYRhcPnSaPgdPo(h');
+	$servidor = decrip('+p+.G+ONlln:FI+9/q+,1-W-J+@B9:L5L4UL`+K.=+DV+Lml');
+	$banco    = decrip('mvjm,j4hDXF]+.jxnTjkp[r0/j"%qT/Zes[Z\j0\ jJmD1QR');
 
 	$conexao = new mysqli($servidor, $usuario, $senha, $banco);
 
