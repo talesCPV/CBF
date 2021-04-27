@@ -8,23 +8,21 @@
 
         if($_POST["do"] == 1){
 
-            $email = $_POST["email"];
-            $senha = $_POST["pass"];
-
+            $email = crip($_POST["email"]);
+            $senha = crip($_POST["pass"]);
             $query = "INSERT INTO tb_usuario (email, senha ) VALUES ('{$email}', '{$senha}');";
 
+        }else if($_POST["do"] == 2){
+            $email = crip($_POST["user"]);
+            $senha = crip($_POST["pass"]);
+            $query = "SELECT * FROM tb_usuario WHERE email='{$email}' AND senha='{$senha}';";
         }
 
-
-        echo $query;
+//        echo $query;
 
         $result = mysqli_query($conexao, $query);
-
-    /*		
-        while($fetch = mysqli_fetch_row($result)){
-
-        }
-    */
+        $fetch = mysqli_fetch_row($result);
+        print json_encode($fetch);
 
     }
 

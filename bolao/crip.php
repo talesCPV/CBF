@@ -87,7 +87,7 @@
 		}
 
 
-		print $word;
+		return $word;
 
 
 	};

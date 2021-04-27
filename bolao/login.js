@@ -28,22 +28,36 @@ signinBtn.onclick = (()=>{
 signinForm.addEventListener("submit",function(event){
 	event.preventDefault();
 
-	const resp = awaitsendFetch('files/login.php');
+    const data = new URLSearchParams();
+    data.append("do", "2");
+    data.append("user", user.value);
+    data.append("pass", pass.value);
 
-    resp.then(result =>{
-        let arr = JSON.parse(result);
-        let status = arr[0];
-        if (status === 200){
-//            alert("Seja bem vindo "+resp[1]+" sua permissão é "+resp[2]);
-			window.location.href = "main.php";
-        }else{
-            alert(arr[1]);
-        }
-       
-    });
-    resp.catch(error =>{
-        alert(error);
-    });
+    const myRequest = new Request("commit.php",{
+        method : "POST",
+        body : data
+    })
+
+
+    const myPromisse = new Promise((resolve,reject) =>{
+
+        fetch(myRequest)
+        .then((response)=>{
+
+            if (response.status === 200) { 
+                resolve(response.text());
+            } else { 
+                reject(new Error("Houve algum erro na comunicação com o servidor"));
+            } 
+
+        })
+    
+    })
+
+    myPromisse.then((json)=>{
+        var obj = JSON.parse(json);
+        console.log(obj)
+    })
 
 })
 
@@ -81,30 +95,17 @@ function sendFetch(url){
 btnNovo.addEventListener('click',(event)=>{
     event.preventDefault();
 
-    const crip_mail = crip(newemail.value);
+    const data = new URLSearchParams();
+    data.append("do", "1");
+    data.append("email", newemail.value);
+    data.append("pass", newpass.value);
 
-    crip_mail.then((email)=>{
-        console.log(email);
-
-        const crip_pass = crip(newpass.value);
-        crip_pass.then((senha)=>{
-            console.log(senha);
-
-            const data = new URLSearchParams();
-            data.append("do", "1");
-            data.append("email", email);
-            data.append("pass", senha);
-        
-            const myRequest = new Request("commit.php",{
-                method : "POST",
-                body : data
-            })
-    
-            fetch(myRequest);
-    
-        });
-
+    const myRequest = new Request("commit.php",{
+        method : "POST",
+        body : data
     })
+
+    fetch(myRequest);
 
 })
 
