@@ -3,6 +3,7 @@
     if (IsSet($_POST["do"])){
 
         include 'database.php';
+        include 'sendMail.php';
 
         $query =  "";
 
@@ -11,6 +12,7 @@
             $email = crip($_POST["email"]);
             $senha = crip($_POST["pass"]);
             $query = "INSERT INTO tb_usuario (email, senha ) VALUES ('{$email}', '{$senha}');";
+            sendEmail($_POST["email"],$email);
 
         }else if($_POST["do"] == 2){
             $email = crip($_POST["user"]);
@@ -30,3 +32,4 @@
 
 
 ?>
+

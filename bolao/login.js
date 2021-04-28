@@ -109,32 +109,3 @@ btnNovo.addEventListener('click',(event)=>{
 
 })
 
-
-function crip(strval){
-
-	const data = new URLSearchParams();
-	data.append("std", '1');
-	data.append("str", strval);
-
-	const myRequest = new Request('crip.php',{
-		method : "POST",
-		body : data
-	})
-
-    const resp = new Promise((resolve,reject)=>{
-        fetch(myRequest)
-        .then( function (response) {
-
-            if(response.status == 200){
-                resolve (response.text());
-    
-            }else{
-                reject('internet offline');
-            }
-
-        })        
-    });
-
-    return resp;
-
-}
