@@ -3,7 +3,7 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
 
-	function sendEmail($destino,$key){
+	function sendEmail($destino){
 
 		require 'phpMail/Exception.php';
 		require 'phpMail/PHPMailer.php';
@@ -22,8 +22,8 @@
 	
 		$mail->From = 'bolaobuteko@gmail.com';
 		$mail->FromName = 'Bolão do Buteko';
-		$mail->addAddress($destino);    						// Add a recipient
-		//$mail->addAddress('ellen@example.com','name '); 		  // Name is optional
+		$mail->addAddress($destino);    							// Add a recipient
+		//$mail->addAddress('ellen@example.com','name '); 		  	// Name is optional
 		//$mail->addReplyTo('info@example.com', 'Information');
 		//$mail->addCC('cc@example.com');
 		//$mail->addBCC('bcc@example.com');
@@ -36,7 +36,7 @@
 		$mail->Subject = 'Bem Vindo ao Bolão do Buteko 2021';
 		$mail->Body    = "<h5>Obrigado por se cadastrar no Bolão do Buteko 2021</h5><br>
 		 <p>clique no link abaixo para confirmar seu registro</p>
-		 <a href='{$key}'> <h1> CONFIRMAR </h1> </a>";
+		 <a href='http://127.0.0.1/CBF/bolao/confirm.php?key={$destino}'> <h1> HABILITAR CONTA</h1> </a>";
 		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	
 		if(!$mail->send()) {
