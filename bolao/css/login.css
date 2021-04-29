@@ -11,7 +11,7 @@ html,body{
   width: 100%;
   place-items: center;
   background: -webkit-linear-gradient(left, #121113,   #fa0303);
-  background-image: url("escudos1.jpg");
+  background-image: url("../assets/escudos1.jpg");
 }
 ::selection{
   background: #fa4299;

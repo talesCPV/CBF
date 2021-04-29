@@ -25,7 +25,6 @@ signinBtn.onclick = (()=>{
 	return false;
 });
 
-
 // botão login
 signinForm.addEventListener("submit",function(event){
 	event.preventDefault();
@@ -35,7 +34,7 @@ signinForm.addEventListener("submit",function(event){
     data.append("user", user.value);
     data.append("pass", pass.value);
 
-    const myRequest = new Request("commit.php",{
+    const myRequest = new Request("files/commit.php",{
         method : "POST",
         body : data
     })
@@ -45,7 +44,7 @@ signinForm.addEventListener("submit",function(event){
 
         fetch(myRequest)
         .then((response)=>{
-            console.log(response)
+//            console.log(response)
             if (response.status === 200) { 
                 resolve(response.text());
             } else { 
@@ -62,9 +61,12 @@ signinForm.addEventListener("submit",function(event){
             alert('Usuário ou senha incorreto.');
         }else{
             if(obj[6]!='ON'){
-                alert('Favor confirmar seu registro no seu email antes de logar.')
+                alert('Favor confirmar seu registro no seu email antes de logar.');
             }else{
-                alert('Bem vindo... logou com sucesso')
+//                alert('Bem vindo... logou com sucesso');
+                document.cookie = `auth=${obj[3]}`; 
+                console.log( document.cookie);
+                window.location.replace("main.html");
             }
         }
 //        console.log(obj)
@@ -72,51 +74,44 @@ signinForm.addEventListener("submit",function(event){
 
 })
 
-function sendFetch(url){
-
-	const data = new URLSearchParams();
-	data.append("edtUser", user.value);
-	data.append("edtPass", pass.value);
-
-	const myRequest = new Request(url,{
-		method : "POST",
-		body : data
-	})
-
-    const myPromisse = new Promise((resolve,reject) =>{
-
-        fetch(myRequest)
-        .then(function (response){
-
-            if (response.status === 200) { 
-                resolve(response.text());
-            } else { 
-                reject(new Error("Houve algum erro na comunicação com o servidor"));
-            } 
-
-        });
-
-    });
-
-	return myPromisse;
-
-}
-
 // botão NOVO
 btnNovo.addEventListener('click',(event)=>{
     event.preventDefault();
+    if(newemail.value.trim() != "" && newpass.value.trim() != "" ){
 
-    const data = new URLSearchParams();
-    data.append("do", "1");
-    data.append("email", newemail.value);
-    data.append("pass", newpass.value);
+        if(newpass.value == newrepass.value){
+            const data = new URLSearchParams();
+            data.append("do", "1");
+            data.append("email", newemail.value);
+            data.append("pass", newpass.value);
+        
+            const myRequest = new Request("files/commit.php",{
+                method : "POST",
+                body : data
+            })
+        
+            const resp = fetch(myRequest);
 
-    const myRequest = new Request("commit.php",{
-        method : "POST",
-        body : data
-    })
+            console.log(resp);
+            resp.then((ok)=>{
+                console.log(ok);
+                if(ok.status == 200){
+                    alert('Cadastro efetuado com sucesso, favor conferir seu email para confirmação.');
+                    signinBtn.click();
+                }else{
+                    alert('Houve algum erro, por favor, aguarde alguns minutos e tente novamente');
+                }
+            })
 
-    fetch(myRequest);
+        }else{
+            alert('As senhas não conferem.');
+            newrepass.focus();
+        }
+
+    }else{
+        alert('Favor preencher todos os campos obrigatórios.');
+        newemail.focus();
+    }
 
 })
 
