@@ -13,6 +13,7 @@
 	
 		$mail->isSMTP();                                      	// Set mailer to use SMTP
 		$mail->Host = 'smtp.gmail.com';                        	// Specify main and backup SMTP servers
+		$mail->Port = 587;
 		$mail->SMTPAuth = true;                               	// Enable SMTP authentication
 		$mail->Username = 'bolaobuteko@gmail.com';              // SMTP username
 		$mail->Password = 'Buteko#01';                          // SMTP password
@@ -36,7 +37,7 @@
 		$mail->Subject = 'Bem Vindo ao Bolão do Buteko 2021';
 		$mail->Body    = "<h5>Obrigado por se cadastrar no Bolão do Buteko 2021</h5><br>
 		 <p>clique no link abaixo para confirmar seu registro</p>
-		 <a href='http://127.0.0.1/CBF/bolao/confirm.php?key={$destino}'> <h1> HABILITAR CONTA</h1> </a>";
+		 <a href='http://mylastpixel.com/bolao/confirm.php?email={$destino}'> <h1> HABILITAR CONTA</h1> </a>";
 		//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	
 		if(!$mail->send()) {

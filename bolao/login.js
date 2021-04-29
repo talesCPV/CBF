@@ -25,6 +25,8 @@ signinBtn.onclick = (()=>{
 	return false;
 });
 
+
+// botão login
 signinForm.addEventListener("submit",function(event){
 	event.preventDefault();
 
@@ -43,7 +45,7 @@ signinForm.addEventListener("submit",function(event){
 
         fetch(myRequest)
         .then((response)=>{
-
+            console.log(response)
             if (response.status === 200) { 
                 resolve(response.text());
             } else { 
@@ -56,7 +58,16 @@ signinForm.addEventListener("submit",function(event){
 
     myPromisse.then((json)=>{
         var obj = JSON.parse(json);
-        console.log(obj)
+        if(obj == null){
+            alert('Usuário ou senha incorreto.');
+        }else{
+            if(obj[6]!='ON'){
+                alert('Favor confirmar seu registro no seu email antes de logar.')
+            }else{
+                alert('Bem vindo... logou com sucesso')
+            }
+        }
+//        console.log(obj)
     })
 
 })
@@ -91,7 +102,7 @@ function sendFetch(url){
 
 }
 
-
+// botão NOVO
 btnNovo.addEventListener('click',(event)=>{
     event.preventDefault();
 
