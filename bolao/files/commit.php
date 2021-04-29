@@ -20,6 +20,10 @@
             $email = crip($_POST["user"]);
             $senha = crip($_POST["pass"]);
             $query = "SELECT * FROM tb_usuario WHERE email='{$email}' AND senha='{$senha}';";
+
+        }else if($_POST["do"] == 3){
+            $auth = $_POST["auth"];
+            $query = "SELECT * FROM tb_usuario WHERE master_key='{$auth}';";       
         }
 
 //        echo $query;
