@@ -1,13 +1,30 @@
 
-const menuDash = document.getElementById('menuDash');
+//Object Cookie
 const cookies = getCookies();
-
 checklog(cookies.auth);
 
+//Object Menu
+const menu = new Object;
+menu.dashboard = document.getElementById('menuDash');
+menu.rodada = document.getElementById('menuRod');
+menu.logout = document.getElementById('menuOut');
 
-menuDash.addEventListener('click',()=>{
+menu.dashboard.addEventListener('click',()=>{
     console.log( cookies.auth);
 })
+
+
+menu.rodada.addEventListener('click',()=>{
+    console.log(  sessionStorage.getItem("auth") );
+})
+
+
+menu.logout.addEventListener('click',()=>{
+    alert(2);
+    document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    console.log( document.cookie);
+})
+
 
 function getCookies(){
     const memCookie = document.cookie.split(';');
@@ -42,8 +59,16 @@ function checklog(auth){
             if (response.status === 200) { 
                 resolve(response.text());
             } else { 
-                reject(new Error("Houve algum erro na comunicação com o servidor"));
+                reject(window.location.replace("index.html"));
             } 
         });
     });
+
+    myPromisse.then((user)=>{
+        if(user.length == 0){
+            window.location.replace("index.html");
+        }
+        console.log(user);
+    });
+
 }

@@ -65,6 +65,7 @@ signinForm.addEventListener("submit",function(event){
             }else{
 //                alert('Bem vindo... logou com sucesso');
                 document.cookie = `auth=${obj[3]}`; 
+                sessionStorage.setItem("auth", obj[3]);
                 console.log( document.cookie);
                 window.location.replace("main.html");
             }
