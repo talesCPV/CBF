@@ -64,9 +64,7 @@ signinForm.addEventListener("submit",function(event){
                 alert('Favor confirmar seu registro no seu email antes de logar.');
             }else{
 //                alert('Bem vindo... logou com sucesso');
-                document.cookie = `auth=${obj[3]}`; 
                 sessionStorage.setItem("auth", obj[3]);
-                console.log( document.cookie);
                 window.location.replace("main.html");
             }
         }
