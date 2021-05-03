@@ -1,7 +1,7 @@
 
   // Variáveis
 
-  const ano = 2020
+  const ano = 2020;
   const auth = sessionStorage.getItem("auth");
 
   let campeonato = [];
@@ -25,14 +25,14 @@
     const data = new URLSearchParams();
     data.append("do", "4");
     data.append("json", JSON.stringify( campeonato ));
-    data.append("ano", 2020);
+    data.append("ano", ano);
 
     const myRequest = new Request("files/commit.php",{
         method : "POST",
         body : data
     })
 
-    const resp = fetch(myRequest);
+//    const resp = fetch(myRequest);
 
 
   })
