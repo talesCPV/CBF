@@ -1,3 +1,8 @@
+  //HTML Objects
+  const btnRodPlus = document.getElementById('btnRodPlus');
+  const btnRodMinus = document.getElementById('btnRodMinus');
+  const edtRod = document.getElementById('edtRod');
+  const tblAposta = document.getElementById('tblAposta');
 
   // Variáveis
 
@@ -19,9 +24,7 @@
   
   menu.dashboard.addEventListener('click',()=>{
 
-    alert(JSON.stringify( campeonato ));
-
-
+//    alert(JSON.stringify( campeonato ));
     const data = new URLSearchParams();
     data.append("do", "4");
     data.append("json", JSON.stringify( campeonato ));
@@ -49,6 +52,20 @@
      
   })
   
+  btnRodPlus.addEventListener('click',()=>{
+      let num = edtRod.value;
+      num < 38 ? num++ : 0 ;
+      edtRod.value = num;
+      fillRodada();
+  })
+
+  btnRodMinus.addEventListener('click',()=>{
+    let num = edtRod.value;
+    num > 1 ? num-- : 0 ;
+    edtRod.value = num;
+    fillRodada();
+})
+
   function checklog(auth){
       if(auth == null || auth == ""){
           window.location.replace("index.html");
@@ -63,8 +80,96 @@
         x.className = "topnav";
       }
     }
-    
-  const btnVer = document.getElementById('btnVer');
+
+    function fillRodada(){
+        const N = edtRod.value - 1;
+        tblAposta.innerHTML = '';
+        for(let i=0; i<campeonato[N].length; i++){
+
+            const row = document.createElement('tr');
+            row.title = campeonato[N][i].dia_sem +" "+campeonato[N][i].data+" "+campeonato[N][i].horario+", "+campeonato[N][i].estadio;
+
+            const jog = document.createElement('td');
+            jog.innerHTML = campeonato[N][i].num;
+            jog.style.display = "none";
+            row.appendChild(jog);
+
+            const mand = document.createElement('td');
+            mand.innerHTML = `<img src="${campeonato[N][i].mandante.logo}" width="50" heigth="50">`;
+            row.appendChild(mand);
+
+            const p1 = document.createElement('td');
+            p1.innerHTML = `<input type="text" size="1" >`;
+            row.appendChild(p1);
+
+            const vs = document.createElement('td');
+            vs.innerHTML = campeonato[N][i].mandante.placar+"x"+campeonato[N][i].visitante.placar;
+            row.appendChild(vs);
+
+            const p2 = document.createElement('td');
+            p2.innerHTML = `<input type="text" size="1" >`;
+            row.appendChild(p2);            
+
+            const vist = document.createElement('td');
+            vist.innerHTML = `<img src="${campeonato[N][i].visitante.logo}" width="50" heigth="50">`;
+            vist.style.width = "auto";
+            row.appendChild(vist);
+
+            const m_nome = document.createElement('td');
+            m_nome.innerHTML = campeonato[N][i].mandante.nome;
+            m_nome.style.display = "none";
+            row.appendChild(m_nome);
+
+            const v_nome = document.createElement('td');
+            v_nome.innerHTML = campeonato[N][i].visitante.nome;
+            v_nome.style.display = "none";
+            row.appendChild(v_nome);
+
+            tblAposta.appendChild(row);
+        }
+        const row = document.createElement('tr');
+        row.innerHTML = "<td colspan='5'><button  id='btnSalApo' class='btn btn-outline-primary' style='width:100%' >SALVAR</button></td>";
+        tblAposta.appendChild(row);
+
+        document.getElementById('btnSalApo').addEventListener('click',()=>{
+            for(let i=0; i<tblAposta.rows.length -1; i++){
+                const jogo_num = tblAposta.rows[i].cells[0].innerHTML;
+                const mand_nome = tblAposta.rows[i].cells[6].innerHTML;
+                const vist_nome = tblAposta.rows[i].cells[7].innerHTML;
+                const p1 = tblAposta.rows[i].cells[2].querySelector(['input']).value;
+                const p2 = tblAposta.rows[i].cells[4].querySelector(['input']).value;
+
+                if(p1.trim() != "" && p2.trim() != ""){                
+
+                    const data = new URLSearchParams();
+                    data.append("do", "5");
+                    data.append("user", auth);
+                    data.append("jogo", jogo_num);
+                    data.append("ano", ano);
+                    data.append("p1", p1);
+                    data.append("p2", p2);
+                
+                    const myRequest = new Request("files/commit.php",{
+                        method : "POST",
+                        body : data
+                    })
+                
+                    const resp = fetch(myRequest);                       
+
+                }
+
+            
+
+/*                
+                for(let j=0; j<tblAposta.rows[i].cells.length; j++){
+                    console.log(tblAposta.rows[i].cells[j].innerHTML);
+                }
+*/                
+            }
+        });        
+
+    }
+
   
 /*  
   btnVer.addEventListener('click',()=>{
@@ -157,7 +262,7 @@
                   }
   
               }
-          
+              fillRodada();
           })
       });
   

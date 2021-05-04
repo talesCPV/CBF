@@ -49,21 +49,28 @@
                     $vist_logo = $vist["logo"];
                     $vist_placar = $vist["placar"];                    
 
-
                     $query = "INSERT INTO tb_jogos VALUES (DEFAULT, {$ano}, {$rodada}, {$num_jogo}, '{$horario}', '{$data}', '{$local}', DEFAULT, '{$mand_nome}', '{$vist_nome}', '{$mand_placar}', '{$vist_placar}');";
                     mysqli_query($conexao, $query);
-
-//                    print("Jogo: {$num_jogo} Data: {$data} Hora: {$horario} Local: {$local} - {$mand_nome} {$mand_placar} X {$vist_placar} {$vist_nome}<br>");
-//                    print("Mandante: ".$mand["nome"]."<br>");
-                            
+                          
                 }
             }
-//            print $json;
+        }else if($_POST["do"] == 5){ // Adiciona Aposta
+            $user = decrip($_POST["user"]);
+            $jogo = $_POST["jogo"];
+            $ano = $_POST["ano"];
+            $p1 = $_POST["p1"];
+            $p2 = $_POST["p2"];
 
-//            $query = "SELECT * FROM tb_usuario WHERE master_key='{$auth}';";                 
+//INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE    
+//name="A", age=19
+
+            $query = "INSERT INTO tb_apostas VALUES ( {$user}, {$jogo}, {$ano}, {$p1}, {$p2} )
+             ON DUPLICATE KEY UPDATE p_mand={$p1}, p_vist={$p2};";
+
+            print $query;
+
+            mysqli_query($conexao, $query);
         }
-
-//        echo $query;
 
         $result = mysqli_query($conexao, $query);        
         $fetch = mysqli_fetch_row($result);

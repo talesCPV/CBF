@@ -22,31 +22,20 @@
     <div class="hide-menu" id="Apo">
 
         <h1><span class="badge badge-secondary">Apostas</span></h1>
+   
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Rodada:</span>
+            </div>
+            <input id="edtRod" type="text" class="form-control" value="1" readonly>
+            <button id="btnRodPlus" style="width: 30%;" class="btn btn-outline-primary">+</button>
+            <button id="btnRodMinus" style="width: 30%;" class="btn btn-outline-primary">-</button>
+            <small id="emailHelp" class="form-text text-muted">Selecione a rodada desejada</small>
 
-        <form>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Selecione a rodada</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option>
-                  <option>6</option> <option>7</option> <option>8</option> <option>9</option> <option>10</option>
-                </select>
-              </div>              
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-          
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+            <table id="tblAposta" class="table table-dark"> </table>
+
+          </div>          
+
 
 
     </div>
