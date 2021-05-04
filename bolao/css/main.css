@@ -32,25 +32,53 @@ body {
   color: black;
 }
 
-.topnav a.active {
-  background-color: #04AA6D;
-  color: white;
-  height: auto;
-}
-
 .topnav .icon {
   display: none;
 }
 
+.hide-menu{
+  display: none;
+  margin: 10px;
+}
+
+.hide-menu:target{
+  display: block;
+}
+
+.table{
+  margin-top: 20px;
+}
+
+.btn{
+  font-size: 20px;
+}
+
+.table td img {
+
+  width: 20%;
+
+}
+
+.center{
+  margin: auto;
+  width: 100%;
+}
+
+/* RESPONSIBLE */
+
+
 @media screen and (max-width: 1000px) {
+
+  .topnav a{
+    font-size: 30px;
+  }
+
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
   }
-}
 
-@media screen and (max-width: 1000px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
     position: absolute;
@@ -62,13 +90,32 @@ body {
     display: block;
     text-align: left;
   }
-}
 
-.hide-menu{
-  display: none;
-  margin: 10px;
-}
+  .table tr {
+    width: 100%;
+    height: auto;
+  }
 
-.hide-menu:target{
-  display: block;
+  .table td{
+    width: 20%;  
+    height: auto;
+    position: relative;
+  }
+
+  .table td .tbl-item {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    font-size: 8vw;
+    padding: 0%;    
+  }
+
+  .nome-time{
+    display: none;
+  }
+
+  .btn, .badge{
+    font-size: 8vw;
+  }
+
 }

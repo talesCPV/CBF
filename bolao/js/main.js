@@ -3,11 +3,13 @@
   const btnRodMinus = document.getElementById('btnRodMinus');
   const edtRod = document.getElementById('edtRod');
   const tblAposta = document.getElementById('tblAposta');
+  const lblAposta = document.getElementById('lblAposta');
 
   // Variáveis
 
   const ano = 2020;
   const auth = sessionStorage.getItem("auth");
+  let rodada = 1;
 
   let campeonato = [];
   getScore(ano);
@@ -53,16 +55,18 @@
   })
   
   btnRodPlus.addEventListener('click',()=>{
-      let num = edtRod.value;
-      num < 38 ? num++ : 0 ;
-      edtRod.value = num;
+      
+      rodada < 38 ? rodada++ : 0 ;
+      lblAposta.innerHTML = "RODADA: "+rodada;
+
       fillRodada();
   })
 
   btnRodMinus.addEventListener('click',()=>{
-    let num = edtRod.value;
-    num > 1 ? num-- : 0 ;
-    edtRod.value = num;
+
+    rodada > 1 ? rodada-- : 0 ;
+    lblAposta.innerHTML = "RODADA: "+rodada;
+
     fillRodada();
 })
 
@@ -82,7 +86,8 @@
     }
 
     function fillRodada(){
-        const N = edtRod.value - 1;
+        const N = rodada- 1;
+        lblAposta.innerHTML = "RODADA: "+ rodada;
         tblAposta.innerHTML = '';
         for(let i=0; i<campeonato[N].length; i++){
 
@@ -95,23 +100,34 @@
             row.appendChild(jog);
 
             const mand = document.createElement('td');
-            mand.innerHTML = `<img src="${campeonato[N][i].mandante.logo}" width="50" heigth="50">`;
+            mand.innerHTML = ` <img class="tbl-item"  src="${campeonato[N][i].mandante.logo}" >`;
             row.appendChild(mand);
 
+            const mand_nome = document.createElement('td');
+            mand_nome.classList.add("nome-time");
+            mand_nome.innerHTML = `${campeonato[N][i].mandante.nome}`;
+            row.appendChild(mand_nome);
+
             const p1 = document.createElement('td');
-            p1.innerHTML = `<input type="text" size="1" >`;
+            p1.innerHTML = `<input class="tbl-item" type="text" size="1" >`;
             row.appendChild(p1);
 
-            const vs = document.createElement('td');
-            vs.innerHTML = campeonato[N][i].mandante.placar+"x"+campeonato[N][i].visitante.placar;
+            const vs = document.createElement('td'); 
+            vs.innerHTML = `<label class="tbl-item"> ${campeonato[N][i].mandante.placar}x${campeonato[N][i].visitante.placar} </label>`;
             row.appendChild(vs);
 
             const p2 = document.createElement('td');
-            p2.innerHTML = `<input type="text" size="1" >`;
+            p2.innerHTML = `<input class="tbl-item"  type="text" size="1" >`;
             row.appendChild(p2);            
 
-            const vist = document.createElement('td');
-            vist.innerHTML = `<img src="${campeonato[N][i].visitante.logo}" width="50" heigth="50">`;
+            const vist_nome = document.createElement('td');
+            vist_nome.classList.add("nome-time");
+            vist_nome.innerHTML = `${campeonato[N][i].visitante.nome}`;
+            row.appendChild(vist_nome);
+
+
+            const vist = document.createElement('td');        
+            vist.innerHTML = `<img class="tbl-item"  src="${campeonato[N][i].visitante.logo}" >`;
             vist.style.width = "auto";
             row.appendChild(vist);
 
@@ -128,7 +144,7 @@
             tblAposta.appendChild(row);
         }
         const row = document.createElement('tr');
-        row.innerHTML = "<td colspan='5'><button  id='btnSalApo' class='btn btn-outline-primary' style='width:100%' >SALVAR</button></td>";
+        row.innerHTML = "<td colspan='7'><button  id='btnSalApo' class='btn btn-outline-primary tbl-item' style='width:100%' >SALVAR</button></td>";
         tblAposta.appendChild(row);
 
         document.getElementById('btnSalApo').addEventListener('click',()=>{
