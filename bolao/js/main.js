@@ -7,11 +7,11 @@
 
   // Variáveis
 
-  const ano = 2020;
+  const ano = sessionStorage.getItem("temporada");
   const auth = sessionStorage.getItem("auth");
   let rodada = 1;
 
-  let campeonato = [];
+  let campeonato = [];  
   getScore(ano);
   console.log(campeonato);
   
@@ -21,7 +21,6 @@
   //Object Menu
   const menu = new Object;
   menu.dashboard = document.getElementById('menuDash');
-  menu.rodada = document.getElementById('menuRod');
   menu.logout = document.getElementById('menuOut');
   
   menu.dashboard.addEventListener('click',()=>{
@@ -37,14 +36,6 @@
         body : data
     })
 
-//    const resp = fetch(myRequest);
-
-
-  })
-  
-  
-  menu.rodada.addEventListener('click',()=>{
-      console.log(auth );
   })
   
   
@@ -174,45 +165,13 @@
 
                 }
 
-            
-
-/*                
-                for(let j=0; j<tblAposta.rows[i].cells.length; j++){
-                    console.log(tblAposta.rows[i].cells[j].innerHTML);
-                }
-*/                
             }
+
         });        
 
     }
 
-  
-/*  
-  btnVer.addEventListener('click',()=>{
-      const rod = campeonato[edtRod.value - 1];
-  
-      let tab = "<table>";
-  
-      for(let i=0; i< rod.length; i++){
-          console.log(rod[i]);
-          tab += `
-              <tr>
-                  <td>${rod[i].data}</td>            
-                  <td><img src="${rod[i].mandante.logo}" width="50" height="50"></td>
-                  <td>${rod[i].mandante.placar}</td>
-                  <td>x</td>
-                  <td>${rod[i].visitante.placar}</td>
-                  <td><img src="${rod[i].visitante.logo} width="50" height="50""></td>
-              </tr>
-          
-          `;
-      }
-      tab += "</table>";
-  
-      document.getElementById("divTabela").innerHTML = tab;
-  
-  })
-*/  
+
   function getScore(ano){
   
       campeonato = [];

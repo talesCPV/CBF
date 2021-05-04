@@ -31,8 +31,8 @@ signinForm.addEventListener("submit",function(event){
 
     const data = new URLSearchParams();
     data.append("do", "2");
-    data.append("user", user.value);
-    data.append("pass", pass.value);
+    data.append("user", user.value.trim());
+    data.append("pass", pass.value.trim());
 
     const myRequest = new Request("files/commit.php",{
         method : "POST",
@@ -65,6 +65,7 @@ signinForm.addEventListener("submit",function(event){
             }else{
 //                alert('Bem vindo... logou com sucesso');
                 sessionStorage.setItem("auth", obj[3]);
+                sessionStorage.setItem("temporada", 2020);
                 window.location.replace("main.html");
             }
         }
@@ -81,8 +82,8 @@ btnNovo.addEventListener('click',(event)=>{
         if(newpass.value == newrepass.value){
             const data = new URLSearchParams();
             data.append("do", "1");
-            data.append("email", newemail.value);
-            data.append("pass", newpass.value);
+            data.append("email", newemail.value.trim());
+            data.append("pass", newpass.value.trim());
         
             const myRequest = new Request("files/commit.php",{
                 method : "POST",
