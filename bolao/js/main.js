@@ -88,10 +88,12 @@
         for(let i=0; i<campeonato[N].length; i++){
             let b1 = "";
             let b2 = "";
-            for(let j=0; j<bets.length; j++){
-                if(bets[j][1]==campeonato[N][i].num && bets[j][2]==ano){
-                    b1 = bets[j][3];
-                    b2 = bets[j][4];
+            if(bets[0] != null){
+                for(let j=0; j<bets.length; j++){
+                    if(bets[j][1]==campeonato[N][i].num && bets[j][2]==ano){
+                        b1 = bets[j][3];
+                        b2 = bets[j][4];
+                    }
                 }
             }
 
