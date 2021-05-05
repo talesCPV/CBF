@@ -70,11 +70,23 @@
             print $query;
 
             mysqli_query($conexao, $query);
+        }else if($_POST["do"] == 6){ // Adiciona Aposta
+            $user = decrip($_POST["user"]);
+            $ano = $_POST["ano"];
+
+            $query = "SELECT * FROM tb_apostas WHERE id_user={$user} AND temporada={$ano};";
+
+//            print $ano;
+
         }
 
-        $result = mysqli_query($conexao, $query);        
+        $result = mysqli_query($conexao, $query);
         $fetch = mysqli_fetch_row($result);
-        print json_encode($fetch);
+        $resp = [$fetch];
+        while($fetch = mysqli_fetch_row($result)){
+            array_push($resp, $fetch);
+        }
+        print json_encode($resp);
 
     }
 

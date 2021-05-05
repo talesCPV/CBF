@@ -142,7 +142,7 @@
 		}
 
 
-		return $word;		
+		return trim($word);		
 
 	};
 

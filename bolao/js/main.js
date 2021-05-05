@@ -10,9 +10,13 @@
   const ano = sessionStorage.getItem("temporada");
   const auth = sessionStorage.getItem("auth");
   let rodada = 1;
-
+  let bets = [];
   let campeonato = [];  
+
+
+  // Inicialização  
   getScore(ano);
+  getBets();
   console.log(campeonato);
   
   //Object Cookie
@@ -35,7 +39,7 @@
         method : "POST",
         body : data
     })
-
+//    fetch(myRequest);
   })
   
   
@@ -80,7 +84,16 @@
         const N = rodada- 1;
         lblAposta.innerHTML = "RODADA: "+ rodada;
         tblAposta.innerHTML = '';
+
         for(let i=0; i<campeonato[N].length; i++){
+            let b1 = "";
+            let b2 = "";
+            for(let j=0; j<bets.length; j++){
+                if(bets[j][1]==campeonato[N][i].num && bets[j][2]==ano){
+                    b1 = bets[j][3];
+                    b2 = bets[j][4];
+                }
+            }
 
             const row = document.createElement('tr');
             row.title = campeonato[N][i].dia_sem +" "+campeonato[N][i].data+" "+campeonato[N][i].horario+", "+campeonato[N][i].estadio;
@@ -100,7 +113,7 @@
             row.appendChild(mand_nome);
 
             const p1 = document.createElement('td');
-            p1.innerHTML = `<input class="tbl-item" type="text" size="1" >`;
+            p1.innerHTML = `<input class="tbl-item" type="text" size="1" value="${b1}" >`;
             row.appendChild(p1);
 
             const vs = document.createElement('td'); 
@@ -108,7 +121,7 @@
             row.appendChild(vs);
 
             const p2 = document.createElement('td');
-            p2.innerHTML = `<input class="tbl-item"  type="text" size="1" >`;
+            p2.innerHTML = `<input class="tbl-item"  type="text" size="1" value="${b2}">`;
             row.appendChild(p2);            
 
             const vist_nome = document.createElement('td');
@@ -141,10 +154,8 @@
         document.getElementById('btnSalApo').addEventListener('click',()=>{
             for(let i=0; i<tblAposta.rows.length -1; i++){
                 const jogo_num = tblAposta.rows[i].cells[0].innerHTML;
-                const mand_nome = tblAposta.rows[i].cells[6].innerHTML;
-                const vist_nome = tblAposta.rows[i].cells[7].innerHTML;
-                const p1 = tblAposta.rows[i].cells[2].querySelector(['input']).value;
-                const p2 = tblAposta.rows[i].cells[4].querySelector(['input']).value;
+                const p1 = tblAposta.rows[i].cells[3].querySelector(['input']).value;
+                const p2 = tblAposta.rows[i].cells[5].querySelector(['input']).value;
 
                 if(p1.trim() != "" && p2.trim() != ""){                
 
@@ -161,15 +172,39 @@
                         body : data
                     })
                 
-                    const resp = fetch(myRequest);                       
+                    fetch(myRequest);                       
 
                 }
 
             }
-
+            getBets();
+            alert("Resultados salvos com sucesso!")
         });        
 
     }
+
+  function getBets(){
+
+    const data = new URLSearchParams();
+    data.append("do", "6");
+    data.append("user", auth);
+    data.append("ano", ano);
+
+    const myRequest = new Request("files/commit.php",{
+        method : "POST",
+        body : data
+    })
+
+    fetch(myRequest)
+    .then(function (response) {
+        response.text().then((json)=>{
+            const obj = JSON.parse(json);
+            bets = obj;
+            console.log(bets);
+        })
+    })
+
+  }
 
 
   function getScore(ano){

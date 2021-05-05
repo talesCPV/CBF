@@ -60,11 +60,11 @@ signinForm.addEventListener("submit",function(event){
         if(obj == null){
             alert('Usuário ou senha incorreto.');
         }else{
-            if(obj[6]!='ON'){
+            if(obj[0][6]!='ON'){
                 alert('Favor confirmar seu registro no seu email antes de logar.');
             }else{
 //                alert('Bem vindo... logou com sucesso');
-                sessionStorage.setItem("auth", obj[3]);
+                sessionStorage.setItem("auth", obj[0][3]);
                 sessionStorage.setItem("temporada", 2020);
                 window.location.replace("main.html");
             }
