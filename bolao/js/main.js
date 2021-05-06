@@ -11,7 +11,9 @@
   const auth = sessionStorage.getItem("auth");
   let rodada = 1;
   let bets = [];
-  let campeonato = [];  
+  let campeonato = [];
+  let times = [];
+  const classif = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
 
 
   // Inicialização  
@@ -185,6 +187,120 @@
 
     }
 
+  function fillTimes(){
+    
+    const tabTimes = [];
+
+    function newTime(nome,sigla,logo){
+        const obj = new Object;
+        obj.nome = nome;
+        obj.sigla = sigla;
+        obj.logo = logo;
+        obj.pro = 0;
+        obj.contra = 0;
+        obj.pt = 0;
+        obj.qtd_casa = 0;
+        obj.qtd_fora = 0;
+        obj.pt_casa = 0;
+        obj.pt_fora = 0;
+        obj.vitoria = 0;
+        obj.derrota = 0;
+        obj.empate = 0;
+        times.push(obj);
+        tabTimes.push(logo);
+    }
+
+    for(let i=0; i<10; i++){
+        newTime(campeonato[0][i].mandante.nome,campeonato[0][i].mandante.sigla,campeonato[0][i].mandante.logo);
+        newTime(campeonato[0][i].visitante.nome,campeonato[0][i].visitante.sigla,campeonato[0][i].visitante.logo);
+    }
+
+    for(let rod=0; rod<campeonato.length; rod++){
+        for(let jog=0; jog<campeonato[rod].length; jog++){
+            const ind_m = tabTimes.indexOf(campeonato[rod][jog].mandante.logo)
+            const ind_v = tabTimes.indexOf(campeonato[rod][jog].visitante.logo)
+
+            times[ind_m].pro += parseInt(campeonato[rod][jog].mandante.placar);
+            times[ind_m].contra += parseInt(campeonato[rod][jog].visitante.placar);
+
+            times[ind_v].contra += parseInt(campeonato[rod][jog].mandante.placar);
+            times[ind_v].pro += parseInt(campeonato[rod][jog].visitante.placar);
+
+            times[ind_m].qtd_casa += 1;
+            times[ind_v].qtd_fora += 1;
+
+            if(campeonato[rod][jog].mandante.placar > campeonato[rod][jog].visitante.placar){
+                times[ind_m].pt += 3;
+                times[ind_m].pt_casa += 3;
+                times[ind_m].vitoria += 1;
+                times[ind_v].derrota += 1;
+            }else if(campeonato[rod][jog].mandante.placar < campeonato[rod][jog].visitante.placar){
+                times[ind_v].pt += 3;
+                times[ind_v].pt_fora += 3;
+                times[ind_v].vitoria += 1;                
+                times[ind_m].derrota += 1;
+            }else{
+                times[ind_m].pt += 1;
+                times[ind_m].pt_casa += 1;
+                times[ind_m].empate += 1;                
+                times[ind_v].pt += 1;
+                times[ind_v].pt_fora += 1;
+                times[ind_v].empate += 1;                
+            }
+
+        }
+    }
+
+    console.log(times);
+    fillTabela();
+  }
+
+    function sortClassif(){
+        for(let i=0; i<times.length-1; i++){
+            let x = 0;
+
+            if(times[i].pt < times[i+1].pt){
+                x += 1;
+            }else if(times[i].pt == times[i+1].pt){
+                if(times[i].vitoria < times[i+1].vitoria){
+                    x += 1;
+                }else if(times[i].vitoria == times[i+1].vitoria){
+                    if((times[i].pro - times[i].pro) < (times[i+1].pro - times[i+1].pro)){
+                        x += 1;
+                    }
+                }
+            }
+        }
+
+    }
+
+  function fillTabela(){
+    
+    const tbTimes = document.getElementById('tbTimes');
+
+    for(let i=0; i<times.length; i++){
+        const row = document.createElement('tr');
+
+        row.innerHTML = ` 
+            <td> <img src="${times[i].logo}"> </td>
+            <td> ${times[i].nome} </td>
+            <td> ${times[i].pt} </td>
+            <td> ${times[i].qtd_casa + times[i].qtd_fora} </td>
+            <td> ${times[i].vitoria} </td>
+            <td> ${times[i].empate} </td>
+            <td> ${times[i].derrota} </td>
+            <td> ${times[i].pro} </td>
+            <td> ${times[i].contra} </td>
+            <td> ${times[i].pro - times[i].contra} </td>
+            <td> ${ Math.floor(times[i].pt / ((times[i].qtd_casa + times[i].qtd_fora) * 3) * 100 )} </td>
+        `;
+
+        tbTimes.appendChild(row);
+    }
+
+  }
+
+
   function getBets(){
 
     const data = new URLSearchParams();
@@ -275,6 +391,7 @@
   
               }
               fillRodada();
+              fillTimes();
           })
       });
   
