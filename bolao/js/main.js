@@ -253,26 +253,41 @@
 
     console.log(times);
     fillTabela();
+    sortTable();
   }
 
-    function sortClassif(){
-        for(let i=0; i<times.length-1; i++){
-            let x = 0;
+    function sortTable() {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("tbTimes");
+        switching = true;
+        while (switching) {
+          switching = false;
+          rows = table.rows;
+          for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            pt1 = rows[i].getElementsByTagName("TD")[2].innerHTML;
+            pt2 = rows[i + 1].getElementsByTagName("TD")[2].innerHTML;
+            vit1 = rows[i].getElementsByTagName("TD")[4].innerHTML;
+            vit2 = rows[i + 1].getElementsByTagName("TD")[4].innerHTML;
+            sal1 = rows[i].getElementsByTagName("TD")[9].innerHTML;
+            sal2 = rows[i + 1].getElementsByTagName("TD")[9].innerHTML;
+            if (pt1 < pt2) { // ordena por pontos
+              shouldSwitch = true;
+              break;
+            }else if (pt1 == pt2 && vit1 < vit2) { // desempata por vitorias
+                shouldSwitch = true;
 
-            if(times[i].pt < times[i+1].pt){
-                x += 1;
-            }else if(times[i].pt == times[i+1].pt){
-                if(times[i].vitoria < times[i+1].vitoria){
-                    x += 1;
-                }else if(times[i].vitoria == times[i+1].vitoria){
-                    if((times[i].pro - times[i].pro) < (times[i+1].pro - times[i+1].pro)){
-                        x += 1;
-                    }
-                }
+            }else if (pt1 == pt2 && vit1 == vit2 && sal1 < sal2) { // desempata por saldo
+                shouldSwitch = true;
             }
+          }
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+          }
         }
+      }
 
-    }
 
   function fillTabela(){
     
