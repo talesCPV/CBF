@@ -42,7 +42,7 @@
         method : "POST",
         body : data
     })
-//    fetch(myRequest);
+    fetch(myRequest);
   })
   
   
@@ -222,36 +222,40 @@
         for(let jog=0; jog<campeonato[rod].length; jog++){
             const ind_m = tabTimes.indexOf(campeonato[rod][jog].mandante.logo)
             const ind_v = tabTimes.indexOf(campeonato[rod][jog].visitante.logo)
+            const P1 = parseInt(campeonato[rod][jog].mandante.placar);
+            const P2 = parseInt(campeonato[rod][jog].visitante.placar);
+            if(P1 != NaN){
 
-            times[ind_m].pro += parseInt(campeonato[rod][jog].mandante.placar);
-            times[ind_m].contra += parseInt(campeonato[rod][jog].visitante.placar);
+                times[ind_m].qtd_casa += 1;
+                times[ind_v].qtd_fora += 1;
 
-            times[ind_v].contra += parseInt(campeonato[rod][jog].mandante.placar);
-            times[ind_v].pro += parseInt(campeonato[rod][jog].visitante.placar);
+                times[ind_m].pro += P1;
+                times[ind_m].contra += P2;
 
-            times[ind_m].qtd_casa += 1;
-            times[ind_v].qtd_fora += 1;
+                times[ind_v].contra += P1;
+                times[ind_v].pro += P2;
 
-            if(campeonato[rod][jog].mandante.placar > campeonato[rod][jog].visitante.placar){
-                times[ind_m].pt += 3;
-                times[ind_m].pt_casa += 3;
-                times[ind_m].vitoria += 1;
-                times[ind_v].derrota += 1;
-            }else if(campeonato[rod][jog].mandante.placar < campeonato[rod][jog].visitante.placar){
-                times[ind_v].pt += 3;
-                times[ind_v].pt_fora += 3;
-                times[ind_v].vitoria += 1;                
-                times[ind_m].derrota += 1;
-            }else{
-                times[ind_m].pt += 1;
-                times[ind_m].pt_casa += 1;
-                times[ind_m].empate += 1;                
-                times[ind_v].pt += 1;
-                times[ind_v].pt_fora += 1;
-                times[ind_v].empate += 1;                
+                if(P1 > P2){
+                    times[ind_m].pt += 3;
+                    times[ind_m].pt_casa += 3;
+                    times[ind_m].vitoria += 1;
+                    times[ind_v].derrota += 1;
+                }else if(P1 < P2){
+                    times[ind_v].pt += 3;
+                    times[ind_v].pt_fora += 3;
+                    times[ind_v].vitoria += 1;                
+                    times[ind_m].derrota += 1;
+                }else{
+                        times[ind_m].pt += 1;
+                        times[ind_m].pt_casa += 1;
+                        times[ind_m].empate += 1;                
+                        times[ind_v].pt += 1;
+                        times[ind_v].pt_fora += 1;
+                        times[ind_v].empate += 1;                           
+                }
+                times[ind_m].acumulado.push(times[ind_m].pt);
+                times[ind_v].acumulado.push(times[ind_v].pt);
             }
-            times[ind_m].acumulado.push(times[ind_m].pt);
-            times[ind_v].acumulado.push(times[ind_v].pt);
         }
     }
 

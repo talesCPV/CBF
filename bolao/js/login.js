@@ -65,7 +65,7 @@ signinForm.addEventListener("submit",function(event){
             }else{
 //                alert('Bem vindo... logou com sucesso');
                 sessionStorage.setItem("auth", obj[0][3]);
-                sessionStorage.setItem("temporada", 2020);
+                sessionStorage.setItem("temporada", 2021);
                 window.location.replace("main.html");
             }
         }
