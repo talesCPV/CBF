@@ -1,31 +1,14 @@
+let historico = [];
+
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(pontos);
-
-function pontos() {
-  var data = google.visualization.arrayToDataTable([
-    ['Rodadas', 'Tales', 'Danilinho'],
-    ['01',  1000,      400],
-    ['02',  800,      460],
-    ['03',  660,       600],
-    ['04',  1030,      540],
-    ['05',  660,       1120],
-
-    ['27',  660,       1120]
-
-  ]);
-
-  var options = {
-    title: 'Pontuação por Rodada',
-    curveType: 'function',
-    legend: { position: 'top' }
-  };
-
-  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-  chart.draw(data, options);
-}
+//google.charts.setOnLoadCallback(pontos_acumulados);
 
 function pontos_acumulados() {
+
+  const hist = fillHist();
+
+    console.log(hist);
+/*
     var data = google.visualization.arrayToDataTable([
       ['Rodadas', 'Tales', 'Danilinho'],
       ['01',  5,      3],
@@ -36,7 +19,9 @@ function pontos_acumulados() {
       ['06',  19,       18]
   
     ]);
-  
+*/
+    var data = google.visualization.arrayToDataTable(hist);
+
     var options = {
       title: 'Pontuação acumulada',
       curveType: 'function',
@@ -46,4 +31,25 @@ function pontos_acumulados() {
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
   
     chart.draw(data, options);
+  }
+
+  function fillHist(){
+
+    const resp = [];
+
+    for(let i=-1; i<times[0].acumulado.length; i++){ // coluna
+      resp.push([(i+1).toString()]);
+      for(let j=0; j<times.length; j++){ // linha
+        if(i<0){
+          resp[i+1].push(times[j].nome);          
+        }else{
+          resp[i+1].push(times[j].acumulado[i]);          
+        }
+      }
+      
+
+    }
+
+    return resp;
+
   }

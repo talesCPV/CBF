@@ -191,14 +191,16 @@
     
     const tabTimes = [];
 
-    function newTime(nome,sigla,logo){
+    function newTime(nome,sigla,logo, uf){
         const obj = new Object;
         obj.nome = nome;
+        obj.uf = uf;
         obj.sigla = sigla;
         obj.logo = logo;
         obj.pro = 0;
         obj.contra = 0;
         obj.pt = 0;
+        obj.acumulado = [];
         obj.qtd_casa = 0;
         obj.qtd_fora = 0;
         obj.pt_casa = 0;
@@ -211,8 +213,8 @@
     }
 
     for(let i=0; i<10; i++){
-        newTime(campeonato[0][i].mandante.nome,campeonato[0][i].mandante.sigla,campeonato[0][i].mandante.logo);
-        newTime(campeonato[0][i].visitante.nome,campeonato[0][i].visitante.sigla,campeonato[0][i].visitante.logo);
+        newTime(campeonato[0][i].mandante.nome,campeonato[0][i].mandante.sigla,campeonato[0][i].mandante.logo,campeonato[0][i].mandante.uf);
+        newTime(campeonato[0][i].visitante.nome,campeonato[0][i].visitante.sigla,campeonato[0][i].visitante.logo,campeonato[0][i].visitante.uf);
     }
 
     for(let rod=0; rod<campeonato.length; rod++){
@@ -228,6 +230,8 @@
 
             times[ind_m].qtd_casa += 1;
             times[ind_v].qtd_fora += 1;
+            times[ind_m].acumulado.push(times[ind_m].pt);
+            times[ind_v].acumulado.push(times[ind_v].pt);
 
             if(campeonato[rod][jog].mandante.placar > campeonato[rod][jog].visitante.placar){
                 times[ind_m].pt += 3;
@@ -254,35 +258,43 @@
     console.log(times);
     fillTabela();
     sortTable();
+    google.charts.setOnLoadCallback(pontos_acumulados);
+
   }
 
     function sortTable() {
-        var table, rows, switching, i, x, y, shouldSwitch;
+        var table, rows, switching, i, pt1, pt2, vit1, vit2, sal1, sal2, shouldSwitch;
         table = document.getElementById("tbTimes");
         switching = true;
+
         while (switching) {
           switching = false;
           rows = table.rows;
           for (i = 1; i < (rows.length - 1); i++) {
             shouldSwitch = false;
-            pt1 = rows[i].getElementsByTagName("TD")[2].innerHTML;
-            pt2 = rows[i + 1].getElementsByTagName("TD")[2].innerHTML;
-            vit1 = rows[i].getElementsByTagName("TD")[4].innerHTML;
-            vit2 = rows[i + 1].getElementsByTagName("TD")[4].innerHTML;
-            sal1 = rows[i].getElementsByTagName("TD")[9].innerHTML;
-            sal2 = rows[i + 1].getElementsByTagName("TD")[9].innerHTML;
+            pt1 = rows[i].getElementsByTagName("TD")[3].innerHTML;
+            pt2 = rows[i + 1].getElementsByTagName("TD")[3].innerHTML;
+            vit1 = rows[i].getElementsByTagName("TD")[5].innerHTML;
+            vit2 = rows[i + 1].getElementsByTagName("TD")[5].innerHTML;
+            sal1 = rows[i].getElementsByTagName("TD")[10].innerHTML;
+            sal2 = rows[i + 1].getElementsByTagName("TD")[10].innerHTML;
             if (pt1 < pt2) { // ordena por pontos
               shouldSwitch = true;
               break;
             }else if (pt1 == pt2 && vit1 < vit2) { // desempata por vitorias
                 shouldSwitch = true;
-
+                break;
             }else if (pt1 == pt2 && vit1 == vit2 && sal1 < sal2) { // desempata por saldo
                 shouldSwitch = true;
+                break;
             }
           }
           if (shouldSwitch) {
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            const aux = rows[i + 1].getElementsByTagName("TD")[0].innerHTML
+            rows[i + 1].getElementsByTagName("TD")[0].innerHTML = rows[i].getElementsByTagName("TD")[0].innerHTML;
+            rows[i].getElementsByTagName("TD")[0].innerHTML = aux;
+
             switching = true;
           }
         }
@@ -295,10 +307,12 @@
 
     for(let i=0; i<times.length; i++){
         const row = document.createElement('tr');
+        row.classList.add("tbl-row-mobile");
 
         row.innerHTML = ` 
-            <td> <img src="${times[i].logo}"> </td>
-            <td> ${times[i].nome} </td>
+            <td> ${i+1} </td>
+            <td class="nome-time"> <img src="${times[i].logo}"> </td>
+            <td> ${times[i].nome}-${times[i].uf} </td>
             <td> ${times[i].pt} </td>
             <td> ${times[i].qtd_casa + times[i].qtd_fora} </td>
             <td> ${times[i].vitoria} </td>
