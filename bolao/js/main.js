@@ -5,6 +5,7 @@
   const tblAposta = document.getElementById('tblAposta');
   const lblAposta = document.getElementById('lblAposta');
 
+
   // Variáveis
 
   const ano = sessionStorage.getItem("temporada");
@@ -84,7 +85,7 @@
 
     function fillRodada(){
         const N = rodada- 1;
-        lblAposta.innerHTML = "RODADA: "+ rodada;
+//        lblAposta.innerHTML = "RODADA: "+ rodada;
         tblAposta.innerHTML = '';
 
         for(let i=0; i<campeonato[N].length; i++){
@@ -230,8 +231,6 @@
 
             times[ind_m].qtd_casa += 1;
             times[ind_v].qtd_fora += 1;
-            times[ind_m].acumulado.push(times[ind_m].pt);
-            times[ind_v].acumulado.push(times[ind_v].pt);
 
             if(campeonato[rod][jog].mandante.placar > campeonato[rod][jog].visitante.placar){
                 times[ind_m].pt += 3;
@@ -251,7 +250,8 @@
                 times[ind_v].pt_fora += 1;
                 times[ind_v].empate += 1;                
             }
-
+            times[ind_m].acumulado.push(times[ind_m].pt);
+            times[ind_v].acumulado.push(times[ind_v].pt);
         }
     }
 
