@@ -42,7 +42,7 @@
         method : "POST",
         body : data
     })
-    fetch(myRequest);
+//    fetch(myRequest);
   })
   
   
@@ -224,7 +224,8 @@
             const ind_v = tabTimes.indexOf(campeonato[rod][jog].visitante.logo)
             const P1 = parseInt(campeonato[rod][jog].mandante.placar);
             const P2 = parseInt(campeonato[rod][jog].visitante.placar);
-            if(P1 != NaN){
+            console.log(P1)
+            if( !isNaN(P1) && !isNaN(P2) ){
 
                 times[ind_m].qtd_casa += 1;
                 times[ind_v].qtd_fora += 1;
